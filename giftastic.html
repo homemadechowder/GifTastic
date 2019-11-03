@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>GifTastic</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>GifTastic!</h1>
+        <div id="buttons-view"></div>
+        <hr>
+        <form id="gif-form">
+          <label for="gif-input">Add a search term</label>
+          <input type="text" id="gif-input">
+          
+    
+          <!-- Button triggers new movie to be added -->
+          <input id="add-gif" type="submit" value="add-gif">
+        </form>
+        <!-- Rendered Buttons will get Dumped Here  -->
+        
+    
+        <!-- Gifs will Get Dumped Dere -->
+        <div id="gifs-view">
+          
+        </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    var initSearch = ["Cat", "Dog", "Monkey", "Cow", "Pig"];
+
+    renderButtons();
+    function displayGifs() {
+    $("button").on("click", function() {
+      //store the data from attribute "data-person" into person
+      var term = $(this).attr("data-name");
+      //use this variable as a search parameter
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + term + "&api_key=wslWpWhssAgYDK6zVXacBDsacT47flr4&limit=10";
+
+      //ajax request
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var personImage = $("<img>");
+            personImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(personImage);
+
+            $("#gifs-view").prepend(gifDiv);
+          }
+        });
+    });
+    }
+
+    
+    function renderButtons() {
+
+        $("#buttons-view").empty();
+
+        // Loops through the array of movies
+        for (var i = 0; i < initSearch.length; i++) {
+       
+        var newButton = $("<button>");
+    
+        newButton.addClass("search");
+
+        newButton.attr("data-name", initSearch[i]);
+
+        newButton.text(initSearch[i]);
+ 
+        $("#buttons-view").append(newButton);
+        }
+    }
+
+    $("#add-gif").on("click", function(event) {
+        event.preventDefault();
+        // This line grabs the input from the textbox
+        var gifs = $("#gif-input").val().trim();
+        // Adding movie from the textbox to our array
+        initSearch.push(gifs);
+        // Calling renderButtons which handles the processing of our movie array
+        renderButtons();
+     
+    });
+
+      // Adding a click event listener to all elements with a class of "movie-btn"
+    $(document).on("click", ".search", displayGifs);
+  
+  </script>
+</body>
+
+</html>
