@@ -5,9 +5,12 @@
   <meta charset="utf-8">
   <title>GifTastic</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
+ 
     <div class="container">
         <h1>GifTastic!</h1>
         <div id="buttons-view"></div>
@@ -24,7 +27,7 @@
         
     
         <!-- Gifs will Get Dumped Dere -->
-        <div id="gifs-view">
+        <div id="gifs-view" style = "margin-left: 20px">
           
         </div>
   </div>
@@ -34,35 +37,29 @@
 
     var initSearch = ["Cat", "Dog", "Monkey", "Cow", "Pig"];
 
-    renderButtons();
+    
+
     function displayGifs() {
     $("button").on("click", function() {
       //store the data from attribute "data-person" into person
       var term = $(this).attr("data-name");
       //use this variable as a search parameter
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + term + "&api_key=wslWpWhssAgYDK6zVXacBDsacT47flr4&limit=10";
-
+      console.log("clicked");
       //ajax request
       $.ajax({
         url: queryURL,
         method: "GET"
-      })
-        .then(function(response) {
+      }).then(function(response) {
           var results = response.data;
-
           for (var i = 0; i < results.length; i++) {
             var gifDiv = $("<div>");
-
             var rating = results[i].rating;
-
             var p = $("<p>").text("Rating: " + rating);
-
-            var personImage = $("<img>");
-            personImage.attr("src", results[i].images.fixed_height.url);
-
+            var image = $("<img>");
+            image.attr("src", results[i].images.fixed_height.url);
             gifDiv.prepend(p);
-            gifDiv.prepend(personImage);
-
+            gifDiv.prepend(image);
             $("#gifs-view").prepend(gifDiv);
           }
         });
@@ -76,16 +73,11 @@
 
         // Loops through the array of movies
         for (var i = 0; i < initSearch.length; i++) {
-       
         var newButton = $("<button>");
-    
         newButton.addClass("search");
-
         newButton.attr("data-name", initSearch[i]);
-
         newButton.text(initSearch[i]);
- 
-        $("#buttons-view").append(newButton);
+         $("#buttons-view").append(newButton);
         }
     }
 
@@ -102,7 +94,8 @@
 
       // Adding a click event listener to all elements with a class of "movie-btn"
     $(document).on("click", ".search", displayGifs);
-  
+    
+    renderButtons();
   </script>
 </body>
 
