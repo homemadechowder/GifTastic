@@ -39,7 +39,7 @@
   
 
     
-  var initSearch = ["cat", "dog", "monkey", "cow", "pig"];
+  var initSearch = ["cat", "dog", "monkey", "cow", "pig", "lion", "panda","platypus"];
   function displayGifs(){
     $("#gifs-view").empty(); 
     var term = $(this).attr("data-name");
@@ -71,16 +71,12 @@
         });     
   }
 
-  function changeState (){
-   
-  }
-
-    
+      
     function renderButtons() {
 
       $("#buttons-view").empty();
 
-        // Loops through the array of movies
+        // Loops through the array of items
         for (var i = 0; i < initSearch.length; i++) {
         var newButton = $("<button>");
         newButton.addClass("search");
@@ -94,23 +90,16 @@
         }
     }
 
+    //function to push input into array of buttons
     $("#add-gif").on("click", function(event) {
         event.preventDefault();
         var check = $("#gif-input");
 
-        // if (check.val() == ""){
-        //   alert ("please input something");
-          
-        // }
-        // else {      
-        // This line grabs the input from the textbox
         var gifs = $("#gif-input").val().trim();
         gifs = gifs.toLowerCase();
-        // Adding movie from the textbox to our array
+      
         initSearch.push(gifs);
-        // Calling renderButtons which handles the gif array
-        
-        // }
+    
         renderButtons();
     });
     
