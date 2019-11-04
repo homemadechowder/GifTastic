@@ -1,3 +1,13 @@
-.container{
+.background{
     background-color: lightseagreen;
+    min-height: 1080px;
+    width: 1920px;
+    color: white;
+}
+#gifs-view{
+    background-color: lightpink;
+}
+
+.search{
+    margin: 5px;
 }
